@@ -14,3 +14,5 @@ All product names, prices, ratings and discounts are **fictional sample data**. 
 
 ## Publish
 Upload all files in this folder to a GitHub Pages repository root and enable GitHub Pages from main / root. Then open the GitHub Pages URL. GitHub Pages requires no server for this demo.
+
+<!-- access test -->
