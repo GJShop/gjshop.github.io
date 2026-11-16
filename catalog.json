@@ -1,0 +1,198 @@
+{
+  "version": 1,
+  "notice": "Curated search suggestions only. No prices, ratings, inventory or affiliate tracking. Retailer listings are external.",
+  "products": [
+    {
+      "id": "mobiles-0",
+      "name": "5G Smartphones",
+      "category": "Mobiles",
+      "emoji": "📱",
+      "query": "5g smartphones",
+      "featured": true
+    },
+    {
+      "id": "mobiles-1",
+      "name": "Budget Smartphones",
+      "category": "Mobiles",
+      "emoji": "📱",
+      "query": "budget smartphones",
+      "featured": false
+    },
+    {
+      "id": "mobiles-2",
+      "name": "Phone Cases",
+      "category": "Mobiles",
+      "emoji": "📱",
+      "query": "phone cases",
+      "featured": false
+    },
+    {
+      "id": "mobiles-3",
+      "name": "Fast Chargers",
+      "category": "Mobiles",
+      "emoji": "📱",
+      "query": "fast chargers",
+      "featured": false
+    },
+    {
+      "id": "electronics-0",
+      "name": "Wireless Earbuds",
+      "category": "Electronics",
+      "emoji": "💻",
+      "query": "wireless earbuds",
+      "featured": true
+    },
+    {
+      "id": "electronics-1",
+      "name": "Bluetooth Speakers",
+      "category": "Electronics",
+      "emoji": "💻",
+      "query": "bluetooth speakers",
+      "featured": false
+    },
+    {
+      "id": "electronics-2",
+      "name": "Smart Watches",
+      "category": "Electronics",
+      "emoji": "💻",
+      "query": "smart watches",
+      "featured": false
+    },
+    {
+      "id": "electronics-3",
+      "name": "Power Banks",
+      "category": "Electronics",
+      "emoji": "💻",
+      "query": "power banks",
+      "featured": false
+    },
+    {
+      "id": "women-fashion-0",
+      "name": "Kurtis",
+      "category": "Women Fashion",
+      "emoji": "👗",
+      "query": "kurtis",
+      "featured": true
+    },
+    {
+      "id": "women-fashion-1",
+      "name": "Sarees",
+      "category": "Women Fashion",
+      "emoji": "👗",
+      "query": "sarees",
+      "featured": false
+    },
+    {
+      "id": "women-fashion-2",
+      "name": "Handbags",
+      "category": "Women Fashion",
+      "emoji": "👗",
+      "query": "handbags",
+      "featured": false
+    },
+    {
+      "id": "women-fashion-3",
+      "name": "Sandals",
+      "category": "Women Fashion",
+      "emoji": "👗",
+      "query": "sandals",
+      "featured": false
+    },
+    {
+      "id": "men-fashion-0",
+      "name": "Casual Shirts",
+      "category": "Men Fashion",
+      "emoji": "👕",
+      "query": "casual shirts",
+      "featured": true
+    },
+    {
+      "id": "men-fashion-1",
+      "name": "Cotton T-Shirts",
+      "category": "Men Fashion",
+      "emoji": "👕",
+      "query": "cotton t-shirts",
+      "featured": false
+    },
+    {
+      "id": "men-fashion-2",
+      "name": "Sneakers",
+      "category": "Men Fashion",
+      "emoji": "👕",
+      "query": "sneakers",
+      "featured": false
+    },
+    {
+      "id": "men-fashion-3",
+      "name": "Wallets",
+      "category": "Men Fashion",
+      "emoji": "👕",
+      "query": "wallets",
+      "featured": false
+    },
+    {
+      "id": "home-kitchen-0",
+      "name": "Mixer Grinders",
+      "category": "Home & Kitchen",
+      "emoji": "🏠",
+      "query": "mixer grinders",
+      "featured": true
+    },
+    {
+      "id": "home-kitchen-1",
+      "name": "Cookware Sets",
+      "category": "Home & Kitchen",
+      "emoji": "🏠",
+      "query": "cookware sets",
+      "featured": false
+    },
+    {
+      "id": "home-kitchen-2",
+      "name": "Storage Containers",
+      "category": "Home & Kitchen",
+      "emoji": "🏠",
+      "query": "storage containers",
+      "featured": false
+    },
+    {
+      "id": "home-kitchen-3",
+      "name": "Bedsheets",
+      "category": "Home & Kitchen",
+      "emoji": "🏠",
+      "query": "bedsheets",
+      "featured": false
+    },
+    {
+      "id": "beauty-0",
+      "name": "Skincare Essentials",
+      "category": "Beauty",
+      "emoji": "💄",
+      "query": "skincare essentials",
+      "featured": true
+    },
+    {
+      "id": "beauty-1",
+      "name": "Hair Dryers",
+      "category": "Beauty",
+      "emoji": "💄",
+      "query": "hair dryers",
+      "featured": false
+    },
+    {
+      "id": "beauty-2",
+      "name": "Makeup Kits",
+      "category": "Beauty",
+      "emoji": "💄",
+      "query": "makeup kits",
+      "featured": false
+    },
+    {
+      "id": "beauty-3",
+      "name": "Perfumes",
+      "category": "Beauty",
+      "emoji": "💄",
+      "query": "perfumes",
+      "featured": false
+    }
+  ]
+}
