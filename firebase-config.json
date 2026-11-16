@@ -1,6 +1,9 @@
 {
-  "apiKey": "",
-  "authDomain": "",
-  "projectId": "",
-  "appId": ""
+  "apiKey": "AIzaSyBx-l0W2iQU9SKk2q3wMKQkb2K3W-omX8M",
+  "authDomain": "gj-shop-dd85a.firebaseapp.com",
+  "projectId": "gj-shop-dd85a",
+  "storageBucket": "gj-shop-dd85a.firebasestorage.app",
+  "messagingSenderId": "338080616080",
+  "appId": "1:338080616080:web:52b38678dcbcbef6dd1215",
+  "measurementId": "G-9GYCEFK026"
 }
