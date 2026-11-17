@@ -137,12 +137,14 @@ $('differenceButton').onclick=()=>{
  for(const [label,field] of [['Brand','brand'],['Model','model'],['Variant','variant_label'],['Size','size'],['RAM','ram'],['Storage','storage'],['Pack quantity','pack_quantity']]){const tr=node('tr');for(const t of [label,a.product[field]??'માહિતી નથી',b.product[field]??'માહિતી નથી'])tr.append(node('td',String(t)));table.append(tr)}
  const row=node('tr');row.append(node('td','ઉપલબ્ધ કુલ ભાવ'));for(const g of [a,b]){const o=currentFor(g)[0];row.append(node('td',o?money(o.total):'ચકાસાયેલ કુલ ભાવ નથી'))}table.append(row);wrap.append(table);out.append(wrap,node('p','આ વિગતોની સરખામણી છે. અલગ variantsના ભાવને એક જ productનો સસ્તો ભાવ ગણતા નથી.'));
 };
+function withTimeout(p){let timer;return Promise.race([p,new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('Data unavailable')),12000)})]).finally(()=>clearTimeout(timer))}
 async function load(){
+ saveStatus();
  try{
- const r=await fetch('/firebase-config.json',{cache:'no-store'});if(!r.ok)throw Error();const config=await r.json();
- const [{initializeApp,getApps},{getFirestore,collection,query,where,limit,getDocs}]=await Promise.all([import('https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js'),import('https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js')]);
+ const r=await withTimeout(fetch('/firebase-config.json',{cache:'no-store'}));if(!r.ok)throw Error();const config=await r.json();
+ const [{initializeApp,getApps},{getFirestore,collection,query,where,limit,getDocs}]=await withTimeout(Promise.all([import('https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js'),import('https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js')]));
  const app=getApps().find(a=>a.name==='gjshop-comparison')||initializeApp(config,'gjshop-comparison'),db=getFirestore(app);
- const snap=await getDocs(query(collection(db,'products'),where('published','==',true),limit(100)));
+ const snap=await withTimeout(getDocs(query(collection(db,'products'),where('published','==',true),limit(100))));
  products=snap.docs.map(d=>({...d.data(),id:d.id})).filter(p=>safeProductURL(p.product_url));
  groups=groupProducts(products);fillHelp();render();
  $('backendnote').textContent='Published listings હવે ઉપર “સાચી કિંમત સરખામણી”માં દેખાય છે. Retailer પર final price અને stock ચકાસો.';
