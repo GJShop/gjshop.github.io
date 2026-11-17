@@ -53,6 +53,9 @@ const el=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefine
 const button=(text,fn)=>{const e=el('button',text,'filterbtn');e.type='button';e.onclick=fn;return e};
 const read=(k,fallback)=>{try{const v=JSON.parse(localStorage.getItem(k));return v&&typeof v==='object'&&!Array.isArray(v)?v:fallback}catch{return fallback}};
 let saved=read('gjshop-saved-v1',{}),items=[],groups=[],selected=[],search='',category='All',store='All',state='Loading products…',db,api,cursor,hasMore=false,loading=false,saveError='';
+const detailRequests=new Set();
+function normalize(p){return {...p,specifications:Array.isArray(p.specifications)?p.specifications.filter(x=>x&&typeof x.label==='string'&&['string','number'].includes(typeof x.value)):[],rating_points:Array.isArray(p.rating_points)?p.rating_points:[]}}
+async function loadDetail(id){if(!db||find(id)||detailRequests.has(id))return;detailRequests.add(id);try{const snap=await timeout(api.getDoc(api.doc(db,'products',id)));if(snap.exists()){const p=normalize({...snap.data(),id:snap.id});if(p.published===true&&safeProductURL(p.product_url)){items.push(p);render()}}}catch{} }
 const time=v=>Number.isFinite(dateMs(v))?new Date(dateMs(v)).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST':'Unavailable';
 const spec=p=>[['Brand',p.brand],['Model',p.model],['Variant',p.variant_label],['Size',p.size],['RAM',p.ram],['Storage',p.storage],['Pack',p.pack_quantity]];
 const find=id=>groups.find(g=>g.id===id||g.offers.some(o=>o.id===id));
@@ -84,7 +87,7 @@ function render(){
  if(!$('wishlistGrid').children.length)$('wishlistGrid').append(el('p','No saved products yet.','fineprint'));
  renderComparison();
  const chooser=$('compareChoices');chooser.replaceChildren(...filterGroups().map(card));
- const id=location.hash.match(/^#\/product\/(.+)$/);if(id){try{renderDetails(decodeURIComponent(id[1]))}catch{$('productDetail').textContent='Product unavailable'}}
+ const id=location.hash.match(/^#\/product\/(.+)$/);if(id){try{const productId=decodeURIComponent(id[1]);renderDetails(productId);loadDetail(productId)}catch{$('productDetail').textContent='Product unavailable'}}
 }
 function route(){const parts=location.hash.replace(/^#\/?/,'').split('/');let name=parts[0]||'home';const legacy={products:'search',gujaratiHelp:'home',help:'home',featured:'home'};name=legacy[name]||name;if(!['home','categories','search','compare','wishlist','more','stores','information','product'].includes(name))name='home';document.querySelectorAll('[data-view]').forEach(e=>e.hidden=e.dataset.view!==name);document.querySelectorAll('[data-route-link]').forEach(a=>{if(a.dataset.routeLink===name||(a.dataset.routeLink==='more'&&['stores','information'].includes(name)))a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});document.title=name[0].toUpperCase()+name.slice(1)+' | GJShop';render();window.scrollTo({top:0,behavior:'instant'})}
 $('searchForm').onsubmit=e=>{e.preventDefault();search=$('query').value;render()};
@@ -96,7 +99,7 @@ document.querySelectorAll('[data-query]').forEach(b=>b.onclick=()=>{search=b.dat
 document.querySelectorAll('[data-store]').forEach(b=>b.onclick=()=>{const match=items.find(p=>(p.retailer||'').toLowerCase().includes(b.dataset.store));store=match?match.retailer:'All';category='All';search='';$('query').value='';location.hash='#/search';render()});
 function timeout(p){let timer;return Promise.race([p,new Promise((_,reject)=>timer=setTimeout(()=>reject(Error('Unavailable')),12000))]).finally(()=>clearTimeout(timer))}
 async function loadPage(){if(loading)return;loading=true;render();try{if(!db){const r=await timeout(fetch('/firebase-config.json',{cache:'no-store'}));if(!r.ok)throw Error();const cfg=await r.json();const [app,fs]=await timeout(Promise.all([import('https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js'),import('https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js')]));api=fs;db=fs.getFirestore(app.getApps().find(a=>a.name==='gjshop-products')||app.initializeApp(cfg,'gjshop-products'))}
- const constraints=[api.where('published','==',true),api.orderBy(api.documentId()),api.limit(48)];if(cursor)constraints.push(api.startAfter(cursor));const snap=await timeout(api.getDocs(api.query(api.collection(db,'products'),...constraints)));cursor=snap.docs.at(-1)||cursor;hasMore=snap.docs.length===48;const map=new Map(items.map(p=>[p.id,p]));for(const d of snap.docs){const p={...d.data(),id:d.id};if(safeProductURL(p.product_url))map.set(d.id,p)}items=[...map.values()];state='No products found.'}catch{state='Products unavailable. Please try again.';hasMore=true}finally{loading=false;render()}}
+ const constraints=[api.where('published','==',true),api.orderBy(api.documentId()),api.limit(48)];if(cursor)constraints.push(api.startAfter(cursor));const snap=await timeout(api.getDocs(api.query(api.collection(db,'products'),...constraints)));cursor=snap.docs.at(-1)||cursor;hasMore=snap.docs.length===48;const map=new Map(items.map(p=>[p.id,p]));for(const d of snap.docs){const p=normalize({...d.data(),id:d.id});if(safeProductURL(p.product_url))map.set(d.id,p)}items=[...map.values()];state='No products found.'}catch{state='Products unavailable. Please try again.';hasMore=true}finally{loading=false;render()}}
 window.addEventListener('hashchange',route);document.addEventListener('visibilitychange',()=>{if(!document.hidden)render()});setInterval(()=>{if(!document.hidden&&items.length)render()},60000);
 $('year').textContent=new Date().getFullYear();route();loadPage();
 })();
